@@ -7,6 +7,8 @@ import com.weathercheck.core.config.SettingsRepository;
 import com.weathercheck.core.i18n.I18nManager;
 import com.weathercheck.core.services.geolocation.IpGeolocationService;
 import com.weathercheck.core.services.Service;
+import com.weathercheck.features.weather.services.OpenMeteoWeatherProvider;
+import com.weathercheck.features.weather.services.WeatherService;
 import com.weathercheck.core.theme.ThemeManager;
 import com.weathercheck.core.units.UnitSystem;
 import com.weathercheck.core.units.UnitSystemResolver;
@@ -15,14 +17,10 @@ import com.weathercheck.features.home.services.DefaultHomeService;
 import com.weathercheck.features.home.services.HomeService;
 import com.weathercheck.features.home.views.HomeView;
 import com.weathercheck.features.map.services.InMemoryMapSelectionService;
-import com.weathercheck.features.map.services.MapSelectionService;
 import com.weathercheck.features.settings.controllers.SettingsController;
 import com.weathercheck.features.settings.services.RepositorySettingsService;
 import com.weathercheck.features.settings.services.SettingsService;
 import com.weathercheck.features.settings.views.SettingsView;
-import com.weathercheck.features.weather.services.openmeteo.OpenMeteoWeatherProvider;
-import com.weathercheck.features.weather.services.weather.ProviderBackedWeatherService;
-import com.weathercheck.features.weather.services.weather.WeatherService;
 
 import javax.swing.*;
 import java.awt.*;
@@ -44,10 +42,11 @@ public class MainFrame extends JFrame {
         JTabbedPane tabs = new JTabbedPane();
         HomeView homeView = new HomeView(i18n, Service.create(() -> new IpGeolocationService(httpClient)));
         SettingsView settingsView = new SettingsView(i18n);
+        WeatherService weatherService = provider;
 
         HomeController homeController = Controller.create(() -> new HomeController(
                 homeView,
-                Service.create(() -> new ProviderBackedWeatherService(provider)),
+                weatherService,
                 Service.create(InMemoryMapSelectionService::new),
                 Service.create(DefaultHomeService::new),
                 i18n,

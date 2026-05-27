@@ -2,13 +2,13 @@ package com.weathercheck.features.home.controllers;
 
 import com.weathercheck.core.controllers.Controller;
 import com.weathercheck.core.i18n.I18nManager;
+import com.weathercheck.features.weather.services.WeatherService;
 import com.weathercheck.core.units.UnitSystem;
 import com.weathercheck.features.home.services.HomeService;
 import com.weathercheck.features.home.views.HomeView;
 import com.weathercheck.features.map.models.MapSelection;
 import com.weathercheck.features.map.services.MapSelectionService;
 import com.weathercheck.features.weather.models.CurrentWeather;
-import com.weathercheck.features.weather.services.weather.WeatherService;
 
 import javax.swing.*;
 import java.time.ZoneId;
