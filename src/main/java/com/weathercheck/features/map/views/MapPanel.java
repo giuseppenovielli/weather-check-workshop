@@ -19,7 +19,7 @@ public class MapPanel extends JPanel {
     public MapPanel() {
         setLayout(new java.awt.BorderLayout());
 
-        OSMTileFactoryInfo info = new OSMTileFactoryInfo();
+        OSMTileFactoryInfo info = new SecureOSMTileFactoryInfo();
         DefaultTileFactory tileFactory = new DefaultTileFactory(info);
         map.setTileFactory(tileFactory);
         map.setZoom(4);
@@ -44,5 +44,16 @@ public class MapPanel extends JPanel {
 
     public JXMapViewer getMap() {
         return map;
+    }
+
+    /**
+     * Forces HTTPS tiles because some bundled JXMapViewer OSM infos still use HTTP.
+     */
+    private static class SecureOSMTileFactoryInfo extends OSMTileFactoryInfo {
+        @Override
+        public String getTileUrl(int x, int y, int zoom) {
+            int z = getTotalMapZoom() - zoom;
+            return String.format("https://tile.openstreetmap.org/%d/%d/%d.png", z, x, y);
+        }
     }
 }
