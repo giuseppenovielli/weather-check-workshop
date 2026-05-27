@@ -1,8 +1,7 @@
 package com.weathercheck.features.weather.providers;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.weathercheck.core.http.HttpJsonClient;
 import com.weathercheck.core.units.UnitSystem;
 import com.weathercheck.features.weather.mappers.WeatherCodeCatalog;
@@ -17,6 +16,7 @@ import java.util.List;
 
 public class OpenMeteoWeatherProvider implements WeatherProvider, GeocodingProvider {
     private final HttpJsonClient client;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public OpenMeteoWeatherProvider(HttpJsonClient client) {
         this.client = client;
@@ -34,11 +34,11 @@ public class OpenMeteoWeatherProvider implements WeatherProvider, GeocodingProvi
         );
         try {
             String json = client.get(url);
-            JsonObject current = JsonParser.parseString(json).getAsJsonObject().getAsJsonObject("current");
-            int code = current.get("weather_code").getAsInt();
+            JsonNode current = objectMapper.readTree(json).path("current");
+            int code = current.path("weather_code").asInt();
             return new CurrentWeather(
-                    current.get("time").getAsString(),
-                    current.get("temperature_2m").getAsDouble(),
+                    current.path("time").asText(),
+                    current.path("temperature_2m").asDouble(),
                     code,
                     WeatherCodeCatalog.keyFor(code)
             );
@@ -53,12 +53,13 @@ public class OpenMeteoWeatherProvider implements WeatherProvider, GeocodingProvi
         String url = "https://geocoding-api.open-meteo.com/v1/search?name=" + encoded + "&count=5&language=en&format=json";
         try {
             String json = client.get(url);
-            JsonObject root = JsonParser.parseString(json).getAsJsonObject();
-            JsonArray results = root.has("results") ? root.getAsJsonArray("results") : new JsonArray();
+            JsonNode results = objectMapper.readTree(json).path("results");
             List<GeoLocation> locations = new ArrayList<>();
-            for (int i = 0; i < results.size(); i++) {
-                JsonObject item = results.get(i).getAsJsonObject();
-                locations.add(new GeoLocation(item.get("name").getAsString(), item.get("latitude").getAsDouble(), item.get("longitude").getAsDouble()));
+            if (!results.isArray()) {
+                return locations;
+            }
+            for (JsonNode item : results) {
+                locations.add(new GeoLocation(item.path("name").asText(), item.path("latitude").asDouble(), item.path("longitude").asDouble()));
             }
             return locations;
         } catch (Exception ex) {

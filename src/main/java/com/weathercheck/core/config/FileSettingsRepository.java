@@ -1,7 +1,6 @@
 package com.weathercheck.core.config;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,7 +12,7 @@ import java.nio.file.Path;
 public class FileSettingsRepository implements SettingsRepository {
     private static final Logger log = LoggerFactory.getLogger(FileSettingsRepository.class);
     private final Path settingsPath;
-    private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public FileSettingsRepository(Path settingsPath) {
         this.settingsPath = settingsPath;
@@ -24,7 +23,7 @@ public class FileSettingsRepository implements SettingsRepository {
         try {
             if (Files.exists(settingsPath)) {
                 String json = Files.readString(settingsPath, StandardCharsets.UTF_8);
-                AppSettings settings = gson.fromJson(json, AppSettings.class);
+                AppSettings settings = objectMapper.readValue(json, AppSettings.class);
                 if (settings != null) {
                     return settings;
                 }
@@ -39,7 +38,11 @@ public class FileSettingsRepository implements SettingsRepository {
     public void save(AppSettings settings) {
         try {
             Files.createDirectories(settingsPath.getParent());
-            Files.writeString(settingsPath, gson.toJson(settings), StandardCharsets.UTF_8);
+            Files.writeString(
+                    settingsPath,
+                    objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(settings),
+                    StandardCharsets.UTF_8
+            );
         } catch (IOException ex) {
             throw new IllegalStateException("Unable to save settings", ex);
         }
