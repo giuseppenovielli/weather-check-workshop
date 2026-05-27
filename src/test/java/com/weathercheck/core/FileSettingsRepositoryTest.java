@@ -1,7 +1,7 @@
 package com.weathercheck.core;
 
 import com.weathercheck.core.config.AppSettings;
-import com.weathercheck.core.config.FileSettingsRepository;
+import com.weathercheck.features.settings.services.FileSettingsRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
@@ -18,7 +18,7 @@ class FileSettingsRepositoryTest {
         Path file = tempDir.resolve("settings.json");
         FileSettingsRepository repo = new FileSettingsRepository(file);
 
-        AppSettings input = new AppSettings("en-US", "dark", "London", 51.5074, -0.1278);
+        AppSettings input = new AppSettings("en-US", "dark");
         repo.save(input);
 
         AppSettings loaded = repo.load();

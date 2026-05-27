@@ -12,6 +12,7 @@ import org.jxmapviewer.viewer.GeoPosition;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.concurrent.CompletableFuture;
@@ -43,7 +44,10 @@ public class MapPanel extends InsetsJPanel {
 
     @Override
     protected JComponent buildView() {
-        return map;
+        JPanel container = new JPanel(new BorderLayout());
+        container.add(map, BorderLayout.CENTER);
+        container.add(createZoomControls(), BorderLayout.SOUTH);
+        return container;
     }
 
     public void onMapClick(Consumer<GeoPosition> callback) {
@@ -73,6 +77,28 @@ public class MapPanel extends InsetsJPanel {
 
     private GeoPosition toGeoPosition(GeoCoordinates coordinates) {
         return new GeoPosition(coordinates.latitude(), coordinates.longitude());
+    }
+
+    private JComponent createZoomControls() {
+        JPanel controls = new JPanel(new GridLayout(2, 1, 0, 6));
+        controls.setBorder(BorderFactory.createEmptyBorder(12, 0, 12, 12));
+
+        JButton zoomInButton = new JButton("+");
+        zoomInButton.addActionListener(e -> changeZoom(-1));
+        JButton zoomOutButton = new JButton("-");
+        zoomOutButton.addActionListener(e -> changeZoom(1));
+
+        controls.add(zoomInButton);
+        controls.add(zoomOutButton);
+        return controls;
+    }
+
+    private void changeZoom(int delta) {
+        int minZoom = map.getTileFactory().getInfo().getMinimumZoomLevel();
+        int maxZoom = map.getTileFactory().getInfo().getMaximumZoomLevel();
+        int nextZoom = Math.max(minZoom, Math.min(maxZoom, map.getZoom() + delta));
+        map.setZoom(nextZoom);
+        map.repaint();
     }
 
     /**
