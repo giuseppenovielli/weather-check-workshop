@@ -2,6 +2,7 @@ package com.weathercheck.features.home.views;
 
 import com.weathercheck.core.i18n.I18nManager;
 import com.weathercheck.core.controls.InsetsJPanelBase;
+import com.weathercheck.core.theme.LabelStyles;
 import com.weathercheck.features.map.views.MapPanel;
 
 import javax.swing.*;
@@ -9,6 +10,7 @@ import java.awt.*;
 
 public class HomeView extends InsetsJPanelBase {
     private final MapPanel mapPanel = new MapPanel();
+    private final LabelStyles labelStyles = new LabelStyles();
     private final JLabel locationLabel = new JLabel("-");
     private final JLabel weatherLabel = new JLabel("-");
     private final JButton downloadButton = new JButton("Download");
@@ -21,6 +23,10 @@ public class HomeView extends InsetsJPanelBase {
 
     @Override
     protected JComponent buildView() {
+        labelStyles.applyTitleText(locationLabel);
+        labelStyles.applyBodyMediumTextStyle(weatherLabel);
+        labelStyles.applyBodyMicroTextStyle(footer);
+
         JPanel content = new JPanel(new GridBagLayout());
         content.setOpaque(false);
 

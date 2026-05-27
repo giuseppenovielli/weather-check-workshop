@@ -11,9 +11,12 @@ import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import javax.swing.*;
 
 public class ThemeManager {
+    private static final String CUSTOM_DEFAULTS_PACKAGE = "com.weathercheck.themes";
+
     public void applyTheme(String theme) {
         try {
             FlatLaf.setUseNativeWindowDecorations(true);
+            FlatLaf.registerCustomDefaultsSource(CUSTOM_DEFAULTS_PACKAGE);
             UIManager.setLookAndFeel(resolveLookAndFeel(theme));
         } catch (UnsupportedLookAndFeelException ex) {
             throw new IllegalStateException("Unable to set theme", ex);
