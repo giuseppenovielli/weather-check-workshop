@@ -4,19 +4,19 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-public abstract class InsetsJPanelBase extends JPanel {
+public abstract class InsetsJPanel extends JPanel {
     public static final int DEFAULT_MARGIN = 10;
     private boolean initialized;
 
-    public InsetsJPanelBase() {
+    public InsetsJPanel() {
         this(DEFAULT_MARGIN);
     }
 
-    public InsetsJPanelBase(int margin) {
+    public InsetsJPanel(int margin) {
         this(new Insets(margin, margin, margin, margin));
     }
 
-    public InsetsJPanelBase(Insets insets) {
+    public InsetsJPanel(Insets insets) {
         setLayout(new BorderLayout());
         setBorder(new EmptyBorder(insets));
     }

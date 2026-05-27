@@ -2,14 +2,14 @@ package com.weathercheck.features.home.views;
 
 import com.weathercheck.core.i18n.I18nManager;
 import com.weathercheck.core.services.geolocation.GeolocationService;
-import com.weathercheck.core.controls.InsetsJPanelBase;
+import com.weathercheck.core.controls.InsetsJPanel;
 import com.weathercheck.core.theme.LabelStyles;
 import com.weathercheck.features.map.views.MapPanel;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class HomeView extends InsetsJPanelBase {
+public class HomeView extends InsetsJPanel {
     private final MapPanel mapPanel;
     private final LabelStyles labelStyles = new LabelStyles();
     private final JLabel locationLabel = new JLabel("-");

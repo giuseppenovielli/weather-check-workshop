@@ -1,12 +1,12 @@
 package com.weathercheck.features.settings.views;
 
-import com.weathercheck.core.controls.InsetsJPanelBase;
+import com.weathercheck.core.controls.InsetsJPanel;
 import com.weathercheck.core.theme.LabelStyles;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class SettingsView extends InsetsJPanelBase {
+public class SettingsView extends InsetsJPanel {
     private final LabelStyles labelStyles = new LabelStyles();
     private final JComboBox<String> language = new JComboBox<>(new String[]{"it-IT", "en-US", "fr-FR", "de-DE", "es-ES", "ja-JP"});
     private final JComboBox<String> theme = new JComboBox<>(new String[]{"light", "dark"});
