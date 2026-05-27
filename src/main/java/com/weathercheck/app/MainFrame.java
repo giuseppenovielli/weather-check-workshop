@@ -32,7 +32,7 @@ public class MainFrame extends JFrame {
     public MainFrame(SettingsRepository settingsRepository, ThemeManager themeManager, OpenMeteoWeatherProvider provider, HttpJsonClient httpClient) {
         SettingsService settingsService = Service.create(() -> new RepositorySettingsService(settingsRepository));
         AppSettings appSettings = settingsService.load();
-        I18nManager i18n = new I18nManager(Locale.forLanguageTag(appSettings.languageTag()));
+        I18nManager i18n = new I18nManager(Locale.forLanguageTag(appSettings.language()));
         UnitSystem unitSystem = UnitSystemResolver.resolve(i18n.getLocale());
 
         setTitle("weather-check");
@@ -43,7 +43,7 @@ public class MainFrame extends JFrame {
 
         JTabbedPane tabs = new JTabbedPane();
         HomeView homeView = new HomeView(i18n, Service.create(() -> new IpGeolocationService(httpClient)));
-        SettingsView settingsView = new SettingsView();
+        SettingsView settingsView = new SettingsView(i18n);
 
         HomeController homeController = Controller.create(() -> new HomeController(
                 homeView,
@@ -59,10 +59,15 @@ public class MainFrame extends JFrame {
                         settingsView,
                         settingsService,
                         themeManager,
-                        i18n,
-                        () -> JOptionPane.showMessageDialog(this, "Settings saved")
+                        i18n
                 )
         );
+        settingsController.addSaveListener(savedSettings -> {
+            homeView.applyTranslations();
+            tabs.setTitleAt(0, i18n.tr("nav.home"));
+            tabs.setTitleAt(1, i18n.tr("nav.settings"));
+            JOptionPane.showMessageDialog(this, i18n.tr("settings.saved"));
+        });
 
         tabs.addTab(i18n.tr("nav.home"), homeView);
         tabs.addTab(i18n.tr("nav.settings"), settingsView);

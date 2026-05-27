@@ -14,7 +14,7 @@ public class HomeView extends InsetsJPanel {
     private final LabelStyles labelStyles = new LabelStyles();
     private final JLabel locationLabel = new JLabel("-");
     private final JLabel weatherLabel = new JLabel("-");
-    private final JButton downloadButton = new JButton("Download");
+    private final JButton downloadButton = new JButton();
     private final JLabel footer = new JLabel("© Giuseppe Novielli · Open-Meteo", SwingConstants.CENTER);
     private final I18nManager i18n;
 
@@ -26,6 +26,7 @@ public class HomeView extends InsetsJPanel {
 
     @Override
     protected JComponent buildView() {
+        applyTranslations();
         labelStyles.applyTitleText(locationLabel);
         labelStyles.applyBodyMediumTextStyle(weatherLabel);
         labelStyles.applyBodyMicroTextStyle(footer);
@@ -69,6 +70,10 @@ public class HomeView extends InsetsJPanel {
         content.add(footer, mainConstraints);
 
         return content;
+    }
+
+    public void applyTranslations() {
+        downloadButton.setText(i18n.tr("home.download"));
     }
 
     public MapPanel mapPanel() { return mapPanel; }

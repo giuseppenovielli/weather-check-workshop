@@ -2,6 +2,8 @@ package com.weathercheck.core.services.geolocation;
 
 import java.util.Optional;
 
-public interface GeolocationService {
+import com.weathercheck.core.services.Service;
+
+public interface GeolocationService extends Service {
     Optional<GeoCoordinates> locate();
 }
