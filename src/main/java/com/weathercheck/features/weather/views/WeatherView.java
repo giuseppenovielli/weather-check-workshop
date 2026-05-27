@@ -21,7 +21,7 @@ public class WeatherView extends InsetsJPanel {
     public WeatherView(I18nManager i18n, GeolocationService geolocationService) {
         super(0);
         this.i18n = i18n;
-        this.mapPanel = new MapPanel(geolocationService);
+        this.mapPanel = new MapPanel(geolocationService, i18n);
     }
 
     @Override

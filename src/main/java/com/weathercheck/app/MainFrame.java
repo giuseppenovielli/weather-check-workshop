@@ -6,6 +6,7 @@ import com.weathercheck.core.http.HttpJsonClient;
 import com.weathercheck.core.i18n.I18nManager;
 import com.weathercheck.core.services.geocoding.GeocodingService;
 import com.weathercheck.core.services.geocoding.OpenMeteoGeocodingService;
+import com.weathercheck.core.services.geocoding.OpenStreetMapGeocodingServicce;
 import com.weathercheck.core.services.geolocation.IpGeolocationService;
 import com.weathercheck.core.services.Service;
 import com.weathercheck.core.theme.ThemeManager;
@@ -29,7 +30,7 @@ public class MainFrame extends JFrame {
         I18nManager i18n = new I18nManager(Locale.forLanguageTag(appSettings.language()));
         UnitSystem unitSystem = UnitSystemResolver.resolve(i18n.getLocale());
 
-        setTitle("weather-check");
+        setTitle("Weather Check");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(1080, 720);
         setMinimumSize(new Dimension(900, 600));
@@ -39,7 +40,7 @@ public class MainFrame extends JFrame {
         WeatherView weatherView = new WeatherView(i18n, Service.create(() -> new IpGeolocationService(httpClient)));
         SettingsView settingsView = new SettingsView(i18n);
         WeatherService weatherService = provider;
-        GeocodingService geocodingService = Service.create(() -> new OpenMeteoGeocodingService(httpClient));
+        GeocodingService geocodingService = Service.create(() -> new OpenStreetMapGeocodingServicce(httpClient));
 
         WeatherController weatherController = Controller.create(() -> new WeatherController(
                 weatherView,

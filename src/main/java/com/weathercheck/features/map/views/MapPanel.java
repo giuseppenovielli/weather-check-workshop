@@ -1,6 +1,7 @@
 package com.weathercheck.features.map.views;
 
 import com.weathercheck.core.controls.InsetsJPanel;
+import com.weathercheck.core.i18n.I18nManager;
 import com.weathercheck.core.services.geolocation.GeoCoordinates;
 import com.weathercheck.core.services.geolocation.GeolocationService;
 import org.jxmapviewer.JXMapViewer;
@@ -23,10 +24,12 @@ public class MapPanel extends InsetsJPanel {
 
     private final JXMapViewer map = new JXMapViewer();
     private final GeolocationService geolocationService;
+    private final I18nManager i18n;
 
-    public MapPanel(GeolocationService geolocationService) {
+    public MapPanel(GeolocationService geolocationService, I18nManager i18n) {
         super(0);
         this.geolocationService = geolocationService;
+        this.i18n = i18n;
 
         OSMTileFactoryInfo info = new SecureOSMTileFactoryInfo();
         DefaultTileFactory tileFactory = new DefaultTileFactory(info);
@@ -80,16 +83,19 @@ public class MapPanel extends InsetsJPanel {
     }
 
     private JComponent createZoomControls() {
-        JPanel controls = new JPanel(new GridLayout(2, 1, 0, 6));
+        JPanel controls = new JPanel(new GridLayout(3, 1, 0, 6));
         controls.setBorder(BorderFactory.createEmptyBorder(12, 0, 12, 12));
 
         JButton zoomInButton = new JButton("+");
         zoomInButton.addActionListener(e -> changeZoom(-1));
         JButton zoomOutButton = new JButton("-");
         zoomOutButton.addActionListener(e -> changeZoom(1));
+        JButton currentPositionButton = new JButton(i18n.tr("map.current_position"));
+        currentPositionButton.addActionListener(e -> centerOnUserLocationAsync());
 
         controls.add(zoomInButton);
         controls.add(zoomOutButton);
+        controls.add(currentPositionButton);
         return controls;
     }
 
