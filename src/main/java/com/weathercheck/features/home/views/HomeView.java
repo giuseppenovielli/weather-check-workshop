@@ -1,20 +1,28 @@
 package com.weathercheck.features.home.views;
 
 import com.weathercheck.core.i18n.I18nManager;
+import com.weathercheck.core.controls.InsetsJPanelBase;
 import com.weathercheck.features.map.views.MapPanel;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class HomeView extends JPanel {
+public class HomeView extends InsetsJPanelBase {
     private final MapPanel mapPanel = new MapPanel();
     private final JLabel locationLabel = new JLabel("-");
     private final JLabel weatherLabel = new JLabel("-");
     private final JButton downloadButton = new JButton("Download");
     private final JLabel footer = new JLabel("© Giuseppe Novielli · Open-Meteo", SwingConstants.CENTER);
+    private final I18nManager i18n;
 
     public HomeView(I18nManager i18n) {
-        setLayout(new GridBagLayout());
+        this.i18n = i18n;
+    }
+
+    @Override
+    protected JComponent buildView() {
+        JPanel content = new JPanel(new GridBagLayout());
+        content.setOpaque(false);
 
         JPanel pinPanel = new JPanel(new GridBagLayout());
         pinPanel.setBorder(BorderFactory.createTitledBorder(i18n.tr("home.pin")));
@@ -22,19 +30,16 @@ public class HomeView extends JPanel {
         pinConstraints.gridx = 0;
         pinConstraints.fill = GridBagConstraints.HORIZONTAL;
         pinConstraints.weightx = 1.0;
-        pinConstraints.insets = new Insets(10, 10, 0, 10);
 
         pinConstraints.gridy = 0;
         pinPanel.add(locationLabel, pinConstraints);
         pinConstraints.gridy = 1;
-        pinConstraints.insets = new Insets(8, 10, 0, 10);
         pinPanel.add(weatherLabel, pinConstraints);
 
         pinConstraints.gridy = 2;
         pinConstraints.anchor = GridBagConstraints.EAST;
         pinConstraints.fill = GridBagConstraints.NONE;
         pinConstraints.weightx = 0.0;
-        pinConstraints.insets = new Insets(8, 10, 10, 10);
         pinPanel.add(downloadButton, pinConstraints);
 
         GridBagConstraints mainConstraints = new GridBagConstraints();
@@ -44,16 +49,17 @@ public class HomeView extends JPanel {
 
         mainConstraints.gridy = 0;
         mainConstraints.weighty = 1.0;
-        add(mapPanel, mainConstraints);
+        content.add(mapPanel, mainConstraints);
 
         mainConstraints.gridy = 1;
         mainConstraints.weighty = 0.0;
-        add(pinPanel, mainConstraints);
+        content.add(pinPanel, mainConstraints);
 
         mainConstraints.gridy = 2;
         mainConstraints.fill = GridBagConstraints.HORIZONTAL;
-        mainConstraints.insets = new Insets(4, 0, 0, 0);
-        add(footer, mainConstraints);
+        content.add(footer, mainConstraints);
+
+        return content;
     }
 
     public MapPanel mapPanel() { return mapPanel; }
