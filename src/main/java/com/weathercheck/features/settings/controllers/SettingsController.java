@@ -1,7 +1,7 @@
 package com.weathercheck.features.settings.controllers;
 
 import com.weathercheck.core.config.AppSettings;
-import com.weathercheck.core.controllers.ControllerBase;
+import com.weathercheck.core.controllers.Controller;
 import com.weathercheck.core.i18n.I18nManager;
 import com.weathercheck.core.theme.ThemeManager;
 import com.weathercheck.features.settings.services.SettingsService;
@@ -10,7 +10,7 @@ import com.weathercheck.features.settings.views.SettingsView;
 import javax.swing.*;
 import java.util.Locale;
 
-public class SettingsController extends ControllerBase {
+public class SettingsController implements Controller {
     private final SettingsView view;
     private final SettingsService service;
     private final ThemeManager themeManager;

@@ -1,12 +1,12 @@
 package com.weathercheck.features.weather.services.weather;
 
-import com.weathercheck.core.services.ServiceBase;
+import com.weathercheck.core.services.Service;
 import com.weathercheck.core.units.UnitSystem;
 import com.weathercheck.features.weather.models.CurrentWeather;
 
 import java.time.ZoneId;
 
-public class ProviderBackedWeatherService extends ServiceBase implements WeatherService {
+public class ProviderBackedWeatherService implements Service, WeatherService {
     private final WeatherProvider provider;
 
     public ProviderBackedWeatherService(WeatherProvider provider) {

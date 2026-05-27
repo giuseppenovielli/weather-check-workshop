@@ -2,9 +2,9 @@ package com.weathercheck.features.settings.services;
 
 import com.weathercheck.core.config.AppSettings;
 import com.weathercheck.core.config.SettingsRepository;
-import com.weathercheck.core.services.ServiceBase;
+import com.weathercheck.core.services.Service;
 
-public class RepositorySettingsService extends ServiceBase implements SettingsService {
+public class RepositorySettingsService implements Service, SettingsService {
     private final SettingsRepository repository;
 
     public RepositorySettingsService(SettingsRepository repository) {

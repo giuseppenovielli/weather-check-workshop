@@ -1,9 +1,9 @@
 package com.weathercheck.features.map.services;
 
-import com.weathercheck.core.services.ServiceBase;
+import com.weathercheck.core.services.Service;
 import com.weathercheck.features.map.models.MapSelection;
 
-public class InMemoryMapSelectionService extends ServiceBase implements MapSelectionService {
+public class InMemoryMapSelectionService implements Service, MapSelectionService {
     private MapSelection current;
 
     @Override

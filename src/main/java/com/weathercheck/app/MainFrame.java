@@ -1,12 +1,12 @@
 package com.weathercheck.app;
 
 import com.weathercheck.core.config.AppSettings;
-import com.weathercheck.core.controllers.ControllerBase;
+import com.weathercheck.core.controllers.Controller;
 import com.weathercheck.core.http.HttpJsonClient;
 import com.weathercheck.core.config.SettingsRepository;
 import com.weathercheck.core.i18n.I18nManager;
 import com.weathercheck.core.services.geolocation.IpGeolocationService;
-import com.weathercheck.core.services.ServiceBase;
+import com.weathercheck.core.services.Service;
 import com.weathercheck.core.theme.ThemeManager;
 import com.weathercheck.core.units.UnitSystem;
 import com.weathercheck.core.units.UnitSystemResolver;
@@ -30,7 +30,7 @@ import java.util.Locale;
 
 public class MainFrame extends JFrame {
     public MainFrame(SettingsRepository settingsRepository, ThemeManager themeManager, OpenMeteoWeatherProvider provider, HttpJsonClient httpClient) {
-        SettingsService settingsService = ServiceBase.create(() -> new RepositorySettingsService(settingsRepository));
+        SettingsService settingsService = Service.create(() -> new RepositorySettingsService(settingsRepository));
         AppSettings appSettings = settingsService.load();
         I18nManager i18n = new I18nManager(Locale.forLanguageTag(appSettings.languageTag()));
         UnitSystem unitSystem = UnitSystemResolver.resolve(i18n.getLocale());
@@ -42,19 +42,19 @@ public class MainFrame extends JFrame {
         setLocationRelativeTo(null);
 
         JTabbedPane tabs = new JTabbedPane();
-        HomeView homeView = new HomeView(i18n, ServiceBase.create(() -> new IpGeolocationService(httpClient)));
+        HomeView homeView = new HomeView(i18n, Service.create(() -> new IpGeolocationService(httpClient)));
         SettingsView settingsView = new SettingsView();
 
-        HomeController homeController = ControllerBase.create(() -> new HomeController(
+        HomeController homeController = Controller.create(() -> new HomeController(
                 homeView,
-                ServiceBase.create(() -> new ProviderBackedWeatherService(provider)),
-                ServiceBase.create(InMemoryMapSelectionService::new),
-                ServiceBase.create(DefaultHomeService::new),
+                Service.create(() -> new ProviderBackedWeatherService(provider)),
+                Service.create(InMemoryMapSelectionService::new),
+                Service.create(DefaultHomeService::new),
                 i18n,
                 unitSystem
         ));
 
-        SettingsController settingsController = ControllerBase.create(
+        SettingsController settingsController = Controller.create(
                 () -> new SettingsController(
                         settingsView,
                         settingsService,

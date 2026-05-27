@@ -1,4 +1,6 @@
 package com.weathercheck.features.weather.models;
 
-public record CurrentWeather(String time, double temperature, int weatherCode, String weatherKey) {
+import com.weathercheck.core.models.Model;
+
+public record CurrentWeather(String time, double temperature, int weatherCode, String weatherKey) implements Model {
 }

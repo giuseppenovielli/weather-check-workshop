@@ -1,6 +1,6 @@
 package com.weathercheck.features.home.controllers;
 
-import com.weathercheck.core.controllers.ControllerBase;
+import com.weathercheck.core.controllers.Controller;
 import com.weathercheck.core.i18n.I18nManager;
 import com.weathercheck.core.units.UnitSystem;
 import com.weathercheck.features.home.services.HomeService;
@@ -13,7 +13,7 @@ import com.weathercheck.features.weather.services.weather.WeatherService;
 import javax.swing.*;
 import java.time.ZoneId;
 
-public class HomeController extends ControllerBase {
+public class HomeController implements Controller {
     private final HomeView view;
     private final WeatherService weatherService;
     private final MapSelectionService mapSelectionService;

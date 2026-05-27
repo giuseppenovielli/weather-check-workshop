@@ -1,4 +1,6 @@
 package com.weathercheck.features.home.models;
 
-public record HomeState(String locationLabel, String weatherText) {
+import com.weathercheck.core.models.Model;
+
+public record HomeState(String locationLabel, String weatherText) implements Model {
 }
