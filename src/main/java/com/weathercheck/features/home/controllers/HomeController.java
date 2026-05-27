@@ -1,5 +1,6 @@
 package com.weathercheck.features.home.controllers;
 
+import com.weathercheck.core.controllers.ControllerBase;
 import com.weathercheck.core.i18n.I18nManager;
 import com.weathercheck.core.units.UnitSystem;
 import com.weathercheck.features.home.services.HomeService;
@@ -12,22 +13,25 @@ import com.weathercheck.features.weather.services.weather.WeatherService;
 import javax.swing.*;
 import java.time.ZoneId;
 
-public class HomeController {
+public class HomeController extends ControllerBase {
     private final HomeView view;
     private final WeatherService weatherService;
     private final MapSelectionService mapSelectionService;
     private final HomeService homeService;
     private final I18nManager i18n;
+    private final UnitSystem unitSystem;
 
-    public HomeController(HomeView view, WeatherService weatherService, MapSelectionService mapSelectionService, HomeService homeService, I18nManager i18n) {
+    public HomeController(HomeView view, WeatherService weatherService, MapSelectionService mapSelectionService, HomeService homeService, I18nManager i18n, UnitSystem unitSystem) {
         this.view = view;
         this.weatherService = weatherService;
         this.mapSelectionService = mapSelectionService;
         this.homeService = homeService;
         this.i18n = i18n;
+        this.unitSystem = unitSystem;
     }
 
-    public void init(UnitSystem unitSystem) {
+    @Override
+    public void init() {
         view.mapPanel().onMapClick(pos -> {
             String label = String.format("%.4f, %.4f", pos.getLatitude(), pos.getLongitude());
             mapSelectionService.set(new MapSelection(pos.getLatitude(), pos.getLongitude(), label));

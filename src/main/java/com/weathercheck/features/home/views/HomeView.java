@@ -1,7 +1,7 @@
 package com.weathercheck.features.home.views;
 
 import com.weathercheck.core.i18n.I18nManager;
-import com.weathercheck.core.services.GeolocationService;
+import com.weathercheck.core.services.geolocation.GeolocationService;
 import com.weathercheck.core.controls.InsetsJPanelBase;
 import com.weathercheck.core.theme.LabelStyles;
 import com.weathercheck.features.map.views.MapPanel;

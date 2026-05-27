@@ -1,4 +1,4 @@
-package com.weathercheck.core.services;
+package com.weathercheck.core.services.geolocation;
 
 import java.util.Optional;
 

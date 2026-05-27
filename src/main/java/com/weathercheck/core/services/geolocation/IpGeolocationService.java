@@ -1,12 +1,13 @@
-package com.weathercheck.core.services;
+package com.weathercheck.core.services.geolocation;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.weathercheck.core.http.HttpJsonClient;
+import com.weathercheck.core.services.ServiceBase;
 
 import java.util.Optional;
 
-public class IpGeolocationService implements GeolocationService {
+public class IpGeolocationService extends ServiceBase implements GeolocationService {
     private static final String GEO_IP_URL = "https://ipwho.is/";
 
     private final HttpJsonClient httpClient;

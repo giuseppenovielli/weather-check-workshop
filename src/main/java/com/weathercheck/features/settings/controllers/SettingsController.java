@@ -1,6 +1,7 @@
 package com.weathercheck.features.settings.controllers;
 
 import com.weathercheck.core.config.AppSettings;
+import com.weathercheck.core.controllers.ControllerBase;
 import com.weathercheck.core.i18n.I18nManager;
 import com.weathercheck.core.theme.ThemeManager;
 import com.weathercheck.features.settings.services.SettingsService;
@@ -9,18 +10,20 @@ import com.weathercheck.features.settings.views.SettingsView;
 import javax.swing.*;
 import java.util.Locale;
 
-public class SettingsController {
+public class SettingsController extends ControllerBase {
     private final SettingsView view;
     private final SettingsService service;
     private final ThemeManager themeManager;
     private final I18nManager i18nManager;
+    private final Runnable onSaved;
     private AppSettings loadedSettings;
 
-    public SettingsController(SettingsView view, SettingsService service, ThemeManager themeManager, I18nManager i18nManager) {
+    public SettingsController(SettingsView view, SettingsService service, ThemeManager themeManager, I18nManager i18nManager, Runnable onSaved) {
         this.view = view;
         this.service = service;
         this.themeManager = themeManager;
         this.i18nManager = i18nManager;
+        this.onSaved = onSaved;
     }
 
     public AppSettings loadIntoView() {
@@ -31,7 +34,7 @@ public class SettingsController {
         return s;
     }
 
-    public void bindSave(Runnable onSaved) {
+    public void bindSave() {
         view.save().addActionListener(e -> {
             try {
                 AppSettings currentSettings = loadedSettings != null ? loadedSettings : service.load();
@@ -52,5 +55,11 @@ public class SettingsController {
                 JOptionPane.showMessageDialog(view, "Invalid settings");
             }
         });
+    }
+
+    @Override
+    public void init() {
+        loadIntoView();
+        bindSave();
     }
 }

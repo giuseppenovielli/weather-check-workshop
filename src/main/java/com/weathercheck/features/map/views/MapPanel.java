@@ -1,8 +1,8 @@
 package com.weathercheck.features.map.views;
 
 import com.weathercheck.core.controls.InsetsJPanelBase;
-import com.weathercheck.core.services.GeoCoordinates;
-import com.weathercheck.core.services.GeolocationService;
+import com.weathercheck.core.services.geolocation.GeoCoordinates;
+import com.weathercheck.core.services.geolocation.GeolocationService;
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.OSMTileFactoryInfo;
 import org.jxmapviewer.input.PanMouseInputListener;

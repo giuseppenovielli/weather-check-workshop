@@ -4,14 +4,6 @@ import com.weathercheck.features.weather.models.GeoLocation;
 
 import java.util.List;
 
-public class GeocodingService {
-    private final GeocodingProvider provider;
-
-    public GeocodingService(GeocodingProvider provider) {
-        this.provider = provider;
-    }
-
-    public List<GeoLocation> search(String query) {
-        return provider.search(query);
-    }
+public interface GeocodingService {
+    List<GeoLocation> search(String query);
 }
