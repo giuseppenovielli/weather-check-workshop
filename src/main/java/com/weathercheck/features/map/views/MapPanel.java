@@ -1,5 +1,8 @@
 package com.weathercheck.features.map.views;
 
+import com.weathercheck.core.controls.InsetsJPanelBase;
+import com.weathercheck.core.services.GeoCoordinates;
+import com.weathercheck.core.services.GeolocationService;
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.OSMTileFactoryInfo;
 import org.jxmapviewer.input.PanMouseInputListener;
@@ -11,25 +14,36 @@ import javax.swing.*;
 import javax.swing.event.MouseInputListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
-public class MapPanel extends JPanel {
-    private final JXMapViewer map = new JXMapViewer();
+public class MapPanel extends InsetsJPanelBase {
+    private static final GeoPosition FALLBACK_POSITION = new GeoPosition(41.8933, 12.4829);
 
-    public MapPanel() {
-        setLayout(new java.awt.BorderLayout());
+    private final JXMapViewer map = new JXMapViewer();
+    private final GeolocationService geolocationService;
+
+    public MapPanel(GeolocationService geolocationService) {
+        super(0);
+        this.geolocationService = geolocationService;
 
         OSMTileFactoryInfo info = new SecureOSMTileFactoryInfo();
         DefaultTileFactory tileFactory = new DefaultTileFactory(info);
         map.setTileFactory(tileFactory);
         map.setZoom(4);
-        map.setAddressLocation(new GeoPosition(41.8933, 12.4829));
+        map.setAddressLocation(FALLBACK_POSITION);
 
         MouseInputListener mia = new PanMouseInputListener(map);
         map.addMouseListener(mia);
         map.addMouseMotionListener(mia);
         map.addMouseWheelListener(new ZoomMouseWheelListenerCursor(map));
-        add(map, java.awt.BorderLayout.CENTER);
+
+        centerOnUserLocationAsync();
+    }
+
+    @Override
+    protected JComponent buildView() {
+        return map;
     }
 
     public void onMapClick(Consumer<GeoPosition> callback) {
@@ -44,6 +58,21 @@ public class MapPanel extends JPanel {
 
     public JXMapViewer getMap() {
         return map;
+    }
+
+    private void centerOnUserLocationAsync() {
+        CompletableFuture
+                .supplyAsync(geolocationService::locate)
+                .thenAccept(geoCoordinates -> geoCoordinates.ifPresent(coordinates ->
+                        SwingUtilities.invokeLater(() -> {
+                            map.setAddressLocation(toGeoPosition(coordinates));
+                            map.repaint();
+                        })
+                ));
+    }
+
+    private GeoPosition toGeoPosition(GeoCoordinates coordinates) {
+        return new GeoPosition(coordinates.latitude(), coordinates.longitude());
     }
 
     /**

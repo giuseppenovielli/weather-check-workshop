@@ -16,11 +16,13 @@ public class WeatherCheckApplication {
             );
             ThemeManager themeManager = new ThemeManager();
             themeManager.applyTheme(settingsRepository.load().theme());
+            JdkHttpJsonClient httpClient = new JdkHttpJsonClient();
 
             MainFrame frame = new MainFrame(
                     settingsRepository,
                     themeManager,
-                    new OpenMeteoWeatherProvider(new JdkHttpJsonClient())
+                    new OpenMeteoWeatherProvider(httpClient),
+                    httpClient
             );
             frame.setVisible(true);
         });

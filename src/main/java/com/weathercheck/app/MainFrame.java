@@ -1,8 +1,10 @@
 package com.weathercheck.app;
 
 import com.weathercheck.core.config.AppSettings;
+import com.weathercheck.core.http.HttpJsonClient;
 import com.weathercheck.core.config.SettingsRepository;
 import com.weathercheck.core.i18n.I18nManager;
+import com.weathercheck.core.services.IpGeolocationService;
 import com.weathercheck.core.theme.ThemeManager;
 import com.weathercheck.core.units.UnitSystem;
 import com.weathercheck.core.units.UnitSystemResolver;
@@ -21,7 +23,7 @@ import java.awt.*;
 import java.util.Locale;
 
 public class MainFrame extends JFrame {
-    public MainFrame(SettingsRepository settingsRepository, ThemeManager themeManager, OpenMeteoWeatherProvider provider) {
+    public MainFrame(SettingsRepository settingsRepository, ThemeManager themeManager, OpenMeteoWeatherProvider provider, HttpJsonClient httpClient) {
         SettingsService settingsService = new SettingsService(settingsRepository);
         AppSettings appSettings = settingsService.load();
         I18nManager i18n = new I18nManager(Locale.forLanguageTag(appSettings.languageTag()));
@@ -34,7 +36,7 @@ public class MainFrame extends JFrame {
         setLocationRelativeTo(null);
 
         JTabbedPane tabs = new JTabbedPane();
-        HomeView homeView = new HomeView(i18n);
+        HomeView homeView = new HomeView(i18n, new IpGeolocationService(httpClient));
         SettingsView settingsView = new SettingsView();
 
         HomeController homeController = new HomeController(
