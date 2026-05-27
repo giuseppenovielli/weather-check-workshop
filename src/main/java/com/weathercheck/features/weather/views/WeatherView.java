@@ -1,4 +1,4 @@
-package com.weathercheck.features.home.views;
+package com.weathercheck.features.weather.views;
 
 import com.weathercheck.core.i18n.I18nManager;
 import com.weathercheck.core.services.geolocation.GeolocationService;
@@ -9,7 +9,7 @@ import com.weathercheck.features.map.views.MapPanel;
 import javax.swing.*;
 import java.awt.*;
 
-public class HomeView extends InsetsJPanel {
+public class WeatherView extends InsetsJPanel {
     private final MapPanel mapPanel;
     private final LabelStyles labelStyles = new LabelStyles();
     private final JLabel locationLabel = new JLabel("-");
@@ -18,7 +18,7 @@ public class HomeView extends InsetsJPanel {
     private final JLabel footer = new JLabel("© Giuseppe Novielli · Open-Meteo", SwingConstants.CENTER);
     private final I18nManager i18n;
 
-    public HomeView(I18nManager i18n, GeolocationService geolocationService) {
+    public WeatherView(I18nManager i18n, GeolocationService geolocationService) {
         super(0);
         this.i18n = i18n;
         this.mapPanel = new MapPanel(geolocationService);

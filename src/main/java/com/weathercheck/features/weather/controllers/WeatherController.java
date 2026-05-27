@@ -1,31 +1,26 @@
-package com.weathercheck.features.home.controllers;
+package com.weathercheck.features.weather.controllers;
 
 import com.weathercheck.core.controllers.Controller;
 import com.weathercheck.core.i18n.I18nManager;
-import com.weathercheck.features.weather.services.WeatherService;
 import com.weathercheck.core.units.UnitSystem;
-import com.weathercheck.features.home.services.HomeService;
-import com.weathercheck.features.home.views.HomeView;
 import com.weathercheck.features.map.models.MapSelection;
-import com.weathercheck.features.map.services.MapSelectionService;
 import com.weathercheck.features.weather.models.CurrentWeather;
+import com.weathercheck.features.weather.services.WeatherService;
+import com.weathercheck.features.weather.views.WeatherView;
 
 import javax.swing.*;
 import java.time.ZoneId;
 
-public class HomeController implements Controller {
-    private final HomeView view;
+public class WeatherController implements Controller {
+    private final WeatherView view;
     private final WeatherService weatherService;
-    private final MapSelectionService mapSelectionService;
-    private final HomeService homeService;
     private final I18nManager i18n;
     private final UnitSystem unitSystem;
+    private MapSelection mapSelection;
 
-    public HomeController(HomeView view, WeatherService weatherService, MapSelectionService mapSelectionService, HomeService homeService, I18nManager i18n, UnitSystem unitSystem) {
+    public WeatherController(WeatherView view, WeatherService weatherService, I18nManager i18n, UnitSystem unitSystem) {
         this.view = view;
         this.weatherService = weatherService;
-        this.mapSelectionService = mapSelectionService;
-        this.homeService = homeService;
         this.i18n = i18n;
         this.unitSystem = unitSystem;
     }
@@ -34,12 +29,12 @@ public class HomeController implements Controller {
     public void init() {
         view.mapPanel().onMapClick(pos -> {
             String label = String.format("%.4f, %.4f", pos.getLatitude(), pos.getLongitude());
-            mapSelectionService.set(new MapSelection(pos.getLatitude(), pos.getLongitude(), label));
+            mapSelection = new MapSelection(pos.getLatitude(), pos.getLongitude(), label);
             view.locationLabel().setText(label);
         });
 
         view.downloadButton().addActionListener(e -> {
-            MapSelection selection = mapSelectionService.current();
+            MapSelection selection = mapSelection;
             if (selection == null) {
                 JOptionPane.showMessageDialog(view, i18n.tr("home.select_location"));
                 return;
@@ -52,11 +47,16 @@ public class HomeController implements Controller {
                             ZoneId.systemDefault(),
                             unitSystem
                     );
-                    view.weatherLabel().setText(homeService.weatherText(weather, unitSystem, i18n));
+                    view.weatherLabel().setText(weatherText(weather));
                 } catch (Exception ex) {
                     view.weatherLabel().setText(i18n.tr("home.error"));
                 }
             });
         });
+    }
+
+    private String weatherText(CurrentWeather weather) {
+        String symbol = unitSystem == UnitSystem.IMPERIAL ? "°F" : "°C";
+        return i18n.tr(weather.weatherKey()) + " - " + weather.temperature() + symbol;
     }
 }

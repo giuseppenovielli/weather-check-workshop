@@ -1,7 +1,7 @@
 package com.weathercheck.app;
 
-import com.weathercheck.core.config.FileSettingsRepository;
 import com.weathercheck.core.http.JdkHttpJsonClient;
+import com.weathercheck.features.settings.services.FileSettingsRepository;
 import com.weathercheck.features.weather.services.OpenMeteoWeatherProvider;
 import com.weathercheck.core.theme.ThemeManager;
 

@@ -4,7 +4,7 @@ import com.weathercheck.core.config.AppSettings;
 import com.weathercheck.core.controllers.ControllerBase;
 import com.weathercheck.core.i18n.I18nManager;
 import com.weathercheck.core.theme.ThemeManager;
-import com.weathercheck.features.settings.services.SettingsService;
+import com.weathercheck.features.settings.services.SettingsRepository;
 import com.weathercheck.features.settings.views.SettingsView;
 
 import javax.swing.*;
@@ -19,21 +19,21 @@ public class SettingsController extends ControllerBase {
     }
 
     private final SettingsView view;
-    private final SettingsService service;
+    private final SettingsRepository repository;
     private final ThemeManager themeManager;
     private final I18nManager i18nManager;
     private final List<SaveListener> saveListeners = new ArrayList<>();
     private AppSettings loadedSettings;
 
-    public SettingsController(SettingsView view, SettingsService service, ThemeManager themeManager, I18nManager i18nManager) {
+    public SettingsController(SettingsView view, SettingsRepository repository, ThemeManager themeManager, I18nManager i18nManager) {
         this.view = view;
-        this.service = service;
+        this.repository = repository;
         this.themeManager = themeManager;
         this.i18nManager = i18nManager;
     }
 
     public AppSettings loadIntoView() {
-        AppSettings s = service.load();
+        AppSettings s = repository.load();
         loadedSettings = s;
         view.language().setSelectedItem(s.language());
         view.theme().setSelectedItem(s.theme());
@@ -47,7 +47,7 @@ public class SettingsController extends ControllerBase {
                         String.valueOf(view.language().getSelectedItem()),
                         String.valueOf(view.theme().getSelectedItem())
                 );
-                service.save(s);
+                repository.save(s);
                 loadedSettings = s;
                 i18nManager.setLocale(Locale.forLanguageTag(s.language()));
                 view.applyTranslations();

@@ -1,6 +1,7 @@
-package com.weathercheck.core.config;
+package com.weathercheck.features.settings.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.weathercheck.core.config.AppSettings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
