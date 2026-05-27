@@ -1,6 +1,7 @@
 package com.weathercheck.core.services.geolocation;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.weathercheck.core.http.HttpJsonClient;
 
@@ -20,20 +21,21 @@ public class IpGeolocationService implements GeolocationService {
     public Optional<GeoCoordinates> locate() {
         try {
             String json = httpClient.get(GEO_IP_URL);
-            JsonNode root = objectMapper.readTree(json);
-            if (!root.path("success").asBoolean(false)) {
+            IpWhoIsResponse response = objectMapper.readValue(json, IpWhoIsResponse.class);
+            if (response == null || !response.success() || response.latitude() == null || response.longitude() == null) {
                 return Optional.empty();
             }
-
-            double latitude = root.path("latitude").asDouble(Double.NaN);
-            double longitude = root.path("longitude").asDouble(Double.NaN);
-            if (Double.isNaN(latitude) || Double.isNaN(longitude)) {
-                return Optional.empty();
-            }
-
-            return Optional.of(new GeoCoordinates(latitude, longitude));
+            return Optional.of(new GeoCoordinates(response.latitude(), response.longitude()));
         } catch (Exception ex) {
             return Optional.empty();
         }
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    private record IpWhoIsResponse(
+            @JsonProperty("success") boolean success,
+            @JsonProperty("latitude") Double latitude,
+            @JsonProperty("longitude") Double longitude
+    ) {
     }
 }

@@ -4,6 +4,8 @@ import com.weathercheck.core.config.AppSettings;
 import com.weathercheck.core.controllers.Controller;
 import com.weathercheck.core.http.HttpJsonClient;
 import com.weathercheck.core.i18n.I18nManager;
+import com.weathercheck.core.services.geocoding.GeocodingService;
+import com.weathercheck.core.services.geocoding.OpenMeteoGeocodingService;
 import com.weathercheck.core.services.geolocation.IpGeolocationService;
 import com.weathercheck.core.services.Service;
 import com.weathercheck.core.theme.ThemeManager;
@@ -37,10 +39,12 @@ public class MainFrame extends JFrame {
         WeatherView weatherView = new WeatherView(i18n, Service.create(() -> new IpGeolocationService(httpClient)));
         SettingsView settingsView = new SettingsView(i18n);
         WeatherService weatherService = provider;
+        GeocodingService geocodingService = Service.create(() -> new OpenMeteoGeocodingService(httpClient));
 
         WeatherController weatherController = Controller.create(() -> new WeatherController(
                 weatherView,
                 weatherService,
+                geocodingService,
                 i18n,
                 unitSystem
         ));

@@ -2,6 +2,7 @@ package com.weathercheck.features.weather.controllers;
 
 import com.weathercheck.core.controllers.Controller;
 import com.weathercheck.core.i18n.I18nManager;
+import com.weathercheck.core.services.geocoding.GeocodingService;
 import com.weathercheck.core.units.UnitSystem;
 import com.weathercheck.features.map.models.MapSelection;
 import com.weathercheck.features.weather.models.CurrentWeather;
@@ -10,17 +11,20 @@ import com.weathercheck.features.weather.views.WeatherView;
 
 import javax.swing.*;
 import java.time.ZoneId;
+import java.util.concurrent.CompletableFuture;
 
 public class WeatherController implements Controller {
     private final WeatherView view;
     private final WeatherService weatherService;
+    private final GeocodingService geocodingService;
     private final I18nManager i18n;
     private final UnitSystem unitSystem;
     private MapSelection mapSelection;
 
-    public WeatherController(WeatherView view, WeatherService weatherService, I18nManager i18n, UnitSystem unitSystem) {
+    public WeatherController(WeatherView view, WeatherService weatherService, GeocodingService geocodingService, I18nManager i18n, UnitSystem unitSystem) {
         this.view = view;
         this.weatherService = weatherService;
+        this.geocodingService = geocodingService;
         this.i18n = i18n;
         this.unitSystem = unitSystem;
     }
@@ -30,7 +34,13 @@ public class WeatherController implements Controller {
         view.mapPanel().onMapClick(pos -> {
             String label = String.format("%.4f, %.4f", pos.getLatitude(), pos.getLongitude());
             mapSelection = new MapSelection(pos.getLatitude(), pos.getLongitude(), label);
-            view.locationLabel().setText(label);
+            view.locationLabel().setText("...");
+
+            CompletableFuture
+                    .supplyAsync(() -> geocodingService.getPlacemarks(pos.getLatitude(), pos.getLongitude()))
+                    .thenAccept(address -> SwingUtilities.invokeLater(() ->
+                            view.locationLabel().setText(address.orElse(label))
+                    ));
         });
 
         view.downloadButton().addActionListener(e -> {

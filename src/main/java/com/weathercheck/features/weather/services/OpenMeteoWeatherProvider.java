@@ -1,6 +1,7 @@
 package com.weathercheck.features.weather.services;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.weathercheck.core.http.HttpJsonClient;
 import com.weathercheck.core.units.UnitSystem;
@@ -29,16 +30,34 @@ public class OpenMeteoWeatherProvider implements WeatherService {
         );
         try {
             String json = client.get(url);
-            JsonNode current = objectMapper.readTree(json).path("current");
-            int code = current.path("weather_code").asInt();
+            OpenMeteoResponse response = objectMapper.readValue(json, OpenMeteoResponse.class);
+            if (response == null || response.current() == null) {
+                throw new IllegalStateException("Missing current weather payload");
+            }
+            CurrentPayload current = response.current();
+            int code = current.weatherCode();
             return new CurrentWeather(
-                    current.path("time").asText(),
-                    current.path("temperature_2m").asDouble(),
+                    current.time(),
+                    current.temperature2m(),
                     code,
                     WeatherCodeCatalog.keyFor(code)
             );
         } catch (Exception ex) {
             throw new IllegalStateException("Unable to fetch weather", ex);
         }
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    private record OpenMeteoResponse(
+            @JsonProperty("current") CurrentPayload current
+    ) {
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    private record CurrentPayload(
+            @JsonProperty("time") String time,
+            @JsonProperty("temperature_2m") double temperature2m,
+            @JsonProperty("weather_code") int weatherCode
+    ) {
     }
 }

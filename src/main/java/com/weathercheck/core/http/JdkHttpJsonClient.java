@@ -11,7 +11,11 @@ public class JdkHttpJsonClient implements HttpJsonClient {
 
     @Override
     public String get(String url) throws IOException, InterruptedException {
-        HttpRequest request = HttpRequest.newBuilder(URI.create(url)).GET().build();
+        HttpRequest request = HttpRequest.newBuilder(URI.create(url))
+                .header("Accept", "application/json")
+                .header("User-Agent", "weather-check/1.0")
+                .GET()
+                .build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         if (response.statusCode() >= 400) {
             throw new IOException("HTTP error: " + response.statusCode());
