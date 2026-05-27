@@ -1,4 +1,4 @@
-package com.weathercheck.features.weather.providers;
+package com.weathercheck.features.weather.services.openmeteo;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -7,6 +7,8 @@ import com.weathercheck.core.units.UnitSystem;
 import com.weathercheck.features.weather.mappers.WeatherCodeCatalog;
 import com.weathercheck.features.weather.models.CurrentWeather;
 import com.weathercheck.features.weather.models.GeoLocation;
+import com.weathercheck.features.weather.services.geocoding.GeocodingProvider;
+import com.weathercheck.features.weather.services.weather.WeatherProvider;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;

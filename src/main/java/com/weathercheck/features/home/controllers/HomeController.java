@@ -7,7 +7,7 @@ import com.weathercheck.features.home.views.HomeView;
 import com.weathercheck.features.map.models.MapSelection;
 import com.weathercheck.features.map.services.MapSelectionService;
 import com.weathercheck.features.weather.models.CurrentWeather;
-import com.weathercheck.features.weather.services.WeatherService;
+import com.weathercheck.features.weather.services.weather.WeatherService;
 
 import javax.swing.*;
 import java.time.ZoneId;

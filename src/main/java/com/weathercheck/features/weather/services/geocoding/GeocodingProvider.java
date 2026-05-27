@@ -1,4 +1,4 @@
-package com.weathercheck.features.weather.providers;
+package com.weathercheck.features.weather.services.geocoding;
 
 import com.weathercheck.features.weather.models.GeoLocation;
 

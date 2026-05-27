@@ -3,7 +3,7 @@ package com.weathercheck.app;
 import com.weathercheck.core.config.FileSettingsRepository;
 import com.weathercheck.core.http.JdkHttpJsonClient;
 import com.weathercheck.core.theme.ThemeManager;
-import com.weathercheck.features.weather.providers.OpenMeteoWeatherProvider;
+import com.weathercheck.features.weather.services.openmeteo.OpenMeteoWeatherProvider;
 
 import javax.swing.*;
 import java.nio.file.Path;

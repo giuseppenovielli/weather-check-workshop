@@ -1,7 +1,6 @@
-package com.weathercheck.features.weather.services;
+package com.weathercheck.features.weather.services.geocoding;
 
 import com.weathercheck.features.weather.models.GeoLocation;
-import com.weathercheck.features.weather.providers.GeocodingProvider;
 
 import java.util.List;
 

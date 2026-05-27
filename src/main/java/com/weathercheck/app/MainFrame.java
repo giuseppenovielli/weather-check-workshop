@@ -15,8 +15,8 @@ import com.weathercheck.features.map.services.MapSelectionService;
 import com.weathercheck.features.settings.controllers.SettingsController;
 import com.weathercheck.features.settings.services.SettingsService;
 import com.weathercheck.features.settings.views.SettingsView;
-import com.weathercheck.features.weather.providers.OpenMeteoWeatherProvider;
-import com.weathercheck.features.weather.services.WeatherService;
+import com.weathercheck.features.weather.services.openmeteo.OpenMeteoWeatherProvider;
+import com.weathercheck.features.weather.services.weather.WeatherService;
 
 import javax.swing.*;
 import java.awt.*;
