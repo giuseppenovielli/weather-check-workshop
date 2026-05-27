@@ -1,0 +1,39 @@
+plugins {
+    id 'application'
+    id 'java'
+}
+
+group = 'com.weathercheck'
+version = '1.0.0'
+
+repositories {
+    mavenCentral()
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+dependencies {
+    implementation 'com.formdev:flatlaf:3.5.4'
+    implementation 'com.miglayout:miglayout-swing:11.4.2'
+    implementation 'com.google.code.gson:gson:2.13.1'
+    implementation 'org.slf4j:slf4j-api:2.0.16'
+    implementation 'org.jxmapviewer:jxmapviewer2:2.6'
+
+    runtimeOnly 'ch.qos.logback:logback-classic:1.5.8'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.11.3'
+    testImplementation 'org.mockito:mockito-core:5.14.2'
+    testImplementation 'org.assertj:assertj-core:3.26.3'
+}
+
+application {
+    mainClass = 'com.weathercheck.app.WeatherCheckApplication'
+}
+
+tasks.test {
+    useJUnitPlatform()
+}
