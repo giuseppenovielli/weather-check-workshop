@@ -1,0 +1,45 @@
+# macOS
+.DS_Store
+
+# Java bytecode / archives
+*.class
+*.jar
+*.war
+*.ear
+
+# Logs
+*.log
+
+# Build directories
+build/
+out/
+target/
+bin/
+
+# Gradle
+.gradle/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Maven
+.mvn/wrapper/maven-wrapper.jar
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# NetBeans
+nbproject/private/
+nbbuild/
+dist/
+nbdist/
+
+# VS Code
+.vscode/
+
+# OS temp files
+Thumbs.db
