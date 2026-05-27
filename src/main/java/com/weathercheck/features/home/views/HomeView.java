@@ -2,9 +2,9 @@ package com.weathercheck.features.home.views;
 
 import com.weathercheck.core.i18n.I18nManager;
 import com.weathercheck.features.map.views.MapPanel;
-import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class HomeView extends JPanel {
     private final MapPanel mapPanel = new MapPanel();
@@ -14,17 +14,46 @@ public class HomeView extends JPanel {
     private final JLabel footer = new JLabel("© Giuseppe Novielli · Open-Meteo", SwingConstants.CENTER);
 
     public HomeView(I18nManager i18n) {
-        setLayout(new MigLayout("insets 0, fill", "[grow]", "[grow][120!][26!]"));
+        setLayout(new GridBagLayout());
 
-        JPanel pinPanel = new JPanel(new MigLayout("insets 10, fillx", "[grow]", "[]8[]8[]"));
+        JPanel pinPanel = new JPanel(new GridBagLayout());
         pinPanel.setBorder(BorderFactory.createTitledBorder(i18n.tr("home.pin")));
-        pinPanel.add(locationLabel, "growx, wrap");
-        pinPanel.add(weatherLabel, "growx, wrap");
-        pinPanel.add(downloadButton, "right");
+        GridBagConstraints pinConstraints = new GridBagConstraints();
+        pinConstraints.gridx = 0;
+        pinConstraints.fill = GridBagConstraints.HORIZONTAL;
+        pinConstraints.weightx = 1.0;
+        pinConstraints.insets = new Insets(10, 10, 0, 10);
 
-        add(mapPanel, "grow, wrap");
-        add(pinPanel, "growx, wrap");
-        add(footer, "growx");
+        pinConstraints.gridy = 0;
+        pinPanel.add(locationLabel, pinConstraints);
+        pinConstraints.gridy = 1;
+        pinConstraints.insets = new Insets(8, 10, 0, 10);
+        pinPanel.add(weatherLabel, pinConstraints);
+
+        pinConstraints.gridy = 2;
+        pinConstraints.anchor = GridBagConstraints.EAST;
+        pinConstraints.fill = GridBagConstraints.NONE;
+        pinConstraints.weightx = 0.0;
+        pinConstraints.insets = new Insets(8, 10, 10, 10);
+        pinPanel.add(downloadButton, pinConstraints);
+
+        GridBagConstraints mainConstraints = new GridBagConstraints();
+        mainConstraints.gridx = 0;
+        mainConstraints.fill = GridBagConstraints.BOTH;
+        mainConstraints.weightx = 1.0;
+
+        mainConstraints.gridy = 0;
+        mainConstraints.weighty = 1.0;
+        add(mapPanel, mainConstraints);
+
+        mainConstraints.gridy = 1;
+        mainConstraints.weighty = 0.0;
+        add(pinPanel, mainConstraints);
+
+        mainConstraints.gridy = 2;
+        mainConstraints.fill = GridBagConstraints.HORIZONTAL;
+        mainConstraints.insets = new Insets(4, 0, 0, 0);
+        add(footer, mainConstraints);
     }
 
     public MapPanel mapPanel() { return mapPanel; }
