@@ -4,7 +4,7 @@
 
 - Tutti i commit Git devono usare un messaggio in italiano.
 
-## sviluppo
+## Coding guideline
 
-- Ogni testo non deve essere hardcoded, ma internazionalizzato secondo le lingue compatibili nella cartella i18n,
-- Ogni stile non deve essere hardcoded, ma deve riutilizzare gli stili presenti in `core/theme`.
+- Ogni testo non deve essere hardcoded, ma internazionalizzato secondo le lingue compatibili nella cartella `src/main/resources/i18n`.
+- Ogni stile non deve essere hardcoded, ma deve riutilizzare gli stili presenti in `src/main/java/com/weathercheck/shared/theme`.

@@ -25,7 +25,7 @@ Applicazione desktop Java Swing per consultare il meteo corrente partendo da una
 
 Il progetto adotta una struttura **feature-first** con organizzazione interna **layer-first**.
 
-- `core/`: componenti trasversali condivisi
+- `shared/`: componenti trasversali condivisi
 - `features/`: funzionalita applicative organizzate per dominio
 - ogni feature separa `views`, `controllers`, `models`, `services`, ecc.
 
@@ -36,22 +36,20 @@ src/
   main/
     java/com/weathercheck/
       app/                     # bootstrap applicazione e frame principale
-      core/
-        config/                # settings e repository di persistenza
-        controls/              # componenti UI base condivisi
+      shared/
+        components/            # basi MVC e controlli UI condivisi
+        config/                # settings applicative condivise
         http/                  # client HTTP/JSON astratti e implementazioni
         i18n/                  # gestione lingua/localizzazione
         theme/                 # gestione tema e stili
         units/                 # risoluzione sistema unita per locale
       features/
-        home/
-          controllers/         # coordinamento eventi della home
-          models/              # stato della home
-          services/            # logica applicativa della home
-          views/               # pannelli Swing della home
+        location/
+          services/
+            geocoding/         # risoluzione toponimi e coordinate
+            geolocation/       # geolocalizzazione da IP/dispositivo
         map/
           models/
-          services/
           views/
         settings/
           controllers/
@@ -59,10 +57,11 @@ src/
           services/
           views/
         weather/
+          controllers/
           mappers/             # mapping codici meteo/DTO
           models/              # modelli dominio meteo/geolocalizzazione
-          providers/           # adapter verso provider esterni (Open-Meteo)
-          services/            # orchestrazione recupero meteo
+          services/            # orchestrazione recupero meteo + provider
+          views/
     resources/
       com/weathercheck/themes/ # file di tema FlatLaf
       i18n/                    # bundle traduzioni
