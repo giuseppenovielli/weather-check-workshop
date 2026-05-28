@@ -2,19 +2,19 @@ package com.weathercheck.features.weather.views;
 
 import com.weathercheck.features.map.views.MapPanel;
 import com.weathercheck.shared.components.controls.InsetsJPanel;
+import com.weathercheck.shared.components.controls.jlabel.BodyJLabel;
+import com.weathercheck.shared.components.controls.jlabel.TitleJLabel;
 import com.weathercheck.shared.i18n.I18nManager;
-import com.weathercheck.shared.theme.LabelStyles;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class WeatherView extends InsetsJPanel {
     private final MapPanel mapPanel;
-    private final LabelStyles labelStyles = new LabelStyles();
-    private final JLabel locationLabel = new JLabel("-");
-    private final JLabel weatherLabel = new JLabel("-");
+    private final JLabel locationLabel = new TitleJLabel(TitleJLabel.Variant.TITLE, "-");
+    private final JLabel weatherLabel = new BodyJLabel(BodyJLabel.Variant.MEDIUM, "-");
     private final JButton downloadButton = new JButton();
-    private final JLabel footer = new JLabel("-", SwingConstants.CENTER);
+    private final JLabel footer = new BodyJLabel(BodyJLabel.Variant.MICRO, "-", SwingConstants.CENTER);
     private final I18nManager i18n;
 
     public WeatherView(I18nManager i18n) {
@@ -26,9 +26,6 @@ public class WeatherView extends InsetsJPanel {
     @Override
     protected JComponent buildView() {
         applyTranslations();
-        labelStyles.applyTitleText(locationLabel);
-        labelStyles.applyBodyMediumTextStyle(weatherLabel);
-        labelStyles.applyBodyMicroTextStyle(footer);
 
         JPanel content = new JPanel(new GridBagLayout());
         content.setOpaque(false);
