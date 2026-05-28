@@ -37,11 +37,15 @@ public class WeatherController implements Controller {
     public void init() {
         view.mapPanel().onCurrentPositionRequest(this::centerOnCurrentPositionAsync);
         centerOnCurrentPositionAsync();
+        bindMapClick();
+        bindDownloadWeather();
+    }
 
+    private void bindMapClick() {
         view.mapPanel().onMapClick(pos -> {
             String label = String.format("%.4f, %.4f", pos.getLatitude(), pos.getLongitude());
             mapSelection = new MapSelection(pos.getLatitude(), pos.getLongitude(), label);
-            view.locationLabel().setText("...");
+            view.locationLabel().setText(i18n.tr("home.loading"));
 
             CompletableFuture
                     .supplyAsync(() -> geocodingService.getPlacemarks(pos.getLatitude(), pos.getLongitude()))
@@ -49,26 +53,22 @@ public class WeatherController implements Controller {
                             view.locationLabel().setText(address.orElse(label))
                     ));
         });
+    }
 
+    private void bindDownloadWeather() {
         view.downloadButton().addActionListener(e -> {
             MapSelection selection = mapSelection;
             if (selection == null) {
                 JOptionPane.showMessageDialog(view, i18n.tr("home.select_location"));
                 return;
             }
-            SwingUtilities.invokeLater(() -> {
-                try {
-                    CurrentWeather weather = weatherService.loadCurrent(
-                            selection.latitude(),
-                            selection.longitude(),
-                            ZoneId.systemDefault(),
-                            unitSystem
-                    );
-                    view.weatherLabel().setText(weatherText(weather));
-                } catch (Exception ex) {
-                    view.weatherLabel().setText(i18n.tr("home.error"));
-                }
-            });
+            CompletableFuture
+                    .supplyAsync(() -> loadCurrentWeather(selection))
+                    .thenAccept(weather -> SwingUtilities.invokeLater(() -> view.weatherLabel().setText(weatherText(weather))))
+                    .exceptionally(ex -> {
+                        SwingUtilities.invokeLater(() -> view.weatherLabel().setText(i18n.tr("home.error")));
+                        return null;
+                    });
         });
     }
 
@@ -84,6 +84,15 @@ public class WeatherController implements Controller {
 
     private String weatherText(CurrentWeather weather) {
         String symbol = unitSystem == UnitSystem.IMPERIAL ? "°F" : "°C";
-        return i18n.tr(weather.weatherKey()) + " - " + weather.temperature() + symbol;
+        return String.format("%s - %s%s", i18n.tr(weather.weatherKey()), weather.temperature(), symbol);
+    }
+
+    private CurrentWeather loadCurrentWeather(MapSelection selection) {
+        return weatherService.loadCurrent(
+                selection.latitude(),
+                selection.longitude(),
+                ZoneId.systemDefault(),
+                unitSystem
+        );
     }
 }

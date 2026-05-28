@@ -31,7 +31,7 @@ public class MainFrame extends JFrame {
         I18nManager i18n = new I18nManager(Locale.forLanguageTag(appSettings.language()));
         UnitSystem unitSystem = UnitSystemResolver.resolve(i18n.getLocale());
 
-        setTitle("Weather Check");
+        setTitle(i18n.tr("app.title"));
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(1080, 720);
         setMinimumSize(new Dimension(900, 600));

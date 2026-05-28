@@ -14,7 +14,7 @@ public class WeatherView extends InsetsJPanel {
     private final JLabel locationLabel = new JLabel("-");
     private final JLabel weatherLabel = new JLabel("-");
     private final JButton downloadButton = new JButton();
-    private final JLabel footer = new JLabel("© Giuseppe Novielli · Open-Meteo", SwingConstants.CENTER);
+    private final JLabel footer = new JLabel("-", SwingConstants.CENTER);
     private final I18nManager i18n;
 
     public WeatherView(I18nManager i18n) {
@@ -73,6 +73,7 @@ public class WeatherView extends InsetsJPanel {
 
     public void applyTranslations() {
         downloadButton.setText(i18n.tr("home.download"));
+        footer.setText(i18n.tr("home.footer"));
     }
 
     public MapPanel mapPanel() { return mapPanel; }
