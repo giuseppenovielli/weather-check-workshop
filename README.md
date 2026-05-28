@@ -105,6 +105,28 @@ Avviare l'app desktop:
 gradle run
 ```
 
+## Esecuzione nel browser con CheerpJ
+
+1. Genera il JAR completo di dipendenze e copialo nella cartella `cheerpj/`:
+
+```bash
+gradle prepareCheerpj
+```
+
+2. Avvia un web server statico dalla root del progetto:
+
+```bash
+python3 -m http.server 8080
+```
+
+3. Apri nel browser:
+
+```text
+http://localhost:8080/cheerpj/
+```
+
+La pagina `cheerpj/index.html` usa CheerpJ e avvia direttamente `cheerpj/app.jar` tramite il `Main-Class` nel manifest.
+
 ## Configurazione utente locale
 
 All'avvio, le impostazioni vengono lette/salvate in:

@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weather Check - CheerpJ</title>
+  <script src="https://cjrtnc.leaningtech.com/4.1/loader.js"></script>
+</head>
+<body>
+  <div id="app"></div>
+  <script>
+    (async function start() {
+      await cheerpjInit();
+      await cheerpjCreateDisplay(-1, -1, document.getElementById("app"));
+      await cheerpjRunJar("app.jar");
+    })();
+  </script>
+</body>
+</html>
