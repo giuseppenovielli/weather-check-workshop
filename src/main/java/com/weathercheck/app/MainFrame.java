@@ -34,7 +34,7 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(1080, 720);
         setMinimumSize(new Dimension(900, 600));
-        setLocationRelativeTo(null);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         JTabbedPane tabs = new JTabbedPane();
         WeatherView weatherView = new WeatherView(i18n);
