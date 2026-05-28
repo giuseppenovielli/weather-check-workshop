@@ -9,11 +9,11 @@ import com.weathercheck.shared.components.controllers.Controller;
 import com.weathercheck.shared.http.HttpJsonClient;
 import com.weathercheck.shared.i18n.I18nManager;
 import com.weathercheck.shared.components.services.Service;
-import com.weathercheck.shared.geo.geocoding.GeocodingService;
-import com.weathercheck.shared.geo.geocoding.OpenMeteoGeocodingService;
-import com.weathercheck.shared.geo.geocoding.OpenStreetMapGeocodingServicce;
-import com.weathercheck.shared.geo.geolocation.GeolocationService;
-import com.weathercheck.shared.geo.geolocation.IpGeolocationService;
+import com.weathercheck.features.location.services.geocoding.GeocodingService;
+import com.weathercheck.features.location.services.geocoding.OpenMeteoGeocodingService;
+import com.weathercheck.features.location.services.geocoding.OpenStreetMapGeocodingService;
+import com.weathercheck.features.location.services.geolocation.GeolocationService;
+import com.weathercheck.features.location.services.geolocation.IpGeolocationService;
 import com.weathercheck.shared.theme.ThemeManager;
 import com.weathercheck.shared.units.UnitSystem;
 import com.weathercheck.shared.units.UnitSystemResolver;
@@ -41,7 +41,7 @@ public class MainFrame extends JFrame {
         WeatherView weatherView = new WeatherView(i18n);
         SettingsView settingsView = new SettingsView(i18n);
         WeatherService weatherService = provider;
-        GeocodingService geocodingService = Service.create(() -> new OpenStreetMapGeocodingServicce(httpClient));
+        GeocodingService geocodingService = Service.create(() -> new OpenStreetMapGeocodingService(httpClient));
         GeolocationService geolocationService = Service.create(() -> new IpGeolocationService(httpClient));
 
         WeatherController weatherController = Controller.create(() -> new WeatherController(

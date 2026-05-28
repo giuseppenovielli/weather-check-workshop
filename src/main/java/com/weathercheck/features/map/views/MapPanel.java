@@ -1,6 +1,6 @@
 package com.weathercheck.features.map.views;
 
-import com.weathercheck.shared.geo.geolocation.GeoCoordinates;
+import com.weathercheck.features.location.services.geolocation.GeoCoordinates;
 import com.weathercheck.shared.components.controls.InsetsJPanel;
 import com.weathercheck.shared.i18n.I18nManager;
 

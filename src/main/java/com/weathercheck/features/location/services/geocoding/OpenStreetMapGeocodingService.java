@@ -1,9 +1,9 @@
-package com.weathercheck.shared.geo.geocoding;
+package com.weathercheck.features.location.services.geocoding;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.weathercheck.shared.http.HttpJsonClient;
-import com.weathercheck.shared.geo.geolocation.GeoCoordinates;
+import com.weathercheck.features.location.services.geolocation.GeoCoordinates;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -11,11 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class OpenStreetMapGeocodingServicce implements GeocodingService {
+public class OpenStreetMapGeocodingService implements GeocodingService {
     private final HttpJsonClient client;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public OpenStreetMapGeocodingServicce(HttpJsonClient client) {
+    public OpenStreetMapGeocodingService(HttpJsonClient client) {
         this.client = client;
     }
 

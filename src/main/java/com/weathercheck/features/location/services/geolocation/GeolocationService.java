@@ -1,4 +1,4 @@
-package com.weathercheck.shared.geo.geolocation;
+package com.weathercheck.features.location.services.geolocation;
 
 import java.util.Optional;
 

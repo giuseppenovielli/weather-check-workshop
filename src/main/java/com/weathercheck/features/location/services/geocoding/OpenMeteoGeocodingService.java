@@ -1,9 +1,9 @@
-package com.weathercheck.shared.geo.geocoding;
+package com.weathercheck.features.location.services.geocoding;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.weathercheck.shared.http.HttpJsonClient;
-import com.weathercheck.shared.geo.geolocation.GeoCoordinates;
+import com.weathercheck.features.location.services.geolocation.GeoCoordinates;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
