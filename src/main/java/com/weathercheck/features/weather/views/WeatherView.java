@@ -1,7 +1,6 @@
 package com.weathercheck.features.weather.views;
 
 import com.weathercheck.core.i18n.I18nManager;
-import com.weathercheck.core.services.geolocation.GeolocationService;
 import com.weathercheck.core.controls.InsetsJPanel;
 import com.weathercheck.core.theme.LabelStyles;
 import com.weathercheck.features.map.views.MapPanel;
@@ -18,10 +17,10 @@ public class WeatherView extends InsetsJPanel {
     private final JLabel footer = new JLabel("© Giuseppe Novielli · Open-Meteo", SwingConstants.CENTER);
     private final I18nManager i18n;
 
-    public WeatherView(I18nManager i18n, GeolocationService geolocationService) {
+    public WeatherView(I18nManager i18n) {
         super(0);
         this.i18n = i18n;
-        this.mapPanel = new MapPanel(geolocationService, i18n);
+        this.mapPanel = new MapPanel(i18n);
     }
 
     @Override

@@ -8,6 +8,7 @@ import com.weathercheck.core.services.geocoding.GeocodingService;
 import com.weathercheck.core.services.geocoding.OpenMeteoGeocodingService;
 import com.weathercheck.core.services.geocoding.OpenStreetMapGeocodingServicce;
 import com.weathercheck.core.services.geolocation.IpGeolocationService;
+import com.weathercheck.core.services.geolocation.GeolocationService;
 import com.weathercheck.core.services.Service;
 import com.weathercheck.core.theme.ThemeManager;
 import com.weathercheck.core.units.UnitSystem;
@@ -37,15 +38,17 @@ public class MainFrame extends JFrame {
         setLocationRelativeTo(null);
 
         JTabbedPane tabs = new JTabbedPane();
-        WeatherView weatherView = new WeatherView(i18n, Service.create(() -> new IpGeolocationService(httpClient)));
+        WeatherView weatherView = new WeatherView(i18n);
         SettingsView settingsView = new SettingsView(i18n);
         WeatherService weatherService = provider;
         GeocodingService geocodingService = Service.create(() -> new OpenStreetMapGeocodingServicce(httpClient));
+        GeolocationService geolocationService = Service.create(() -> new IpGeolocationService(httpClient));
 
         WeatherController weatherController = Controller.create(() -> new WeatherController(
                 weatherView,
                 weatherService,
                 geocodingService,
+                geolocationService,
                 i18n,
                 unitSystem
         ));

@@ -3,6 +3,8 @@ package com.weathercheck.features.weather.controllers;
 import com.weathercheck.core.controllers.Controller;
 import com.weathercheck.core.i18n.I18nManager;
 import com.weathercheck.core.services.geocoding.GeocodingService;
+import com.weathercheck.core.services.geolocation.GeoCoordinates;
+import com.weathercheck.core.services.geolocation.GeolocationService;
 import com.weathercheck.core.units.UnitSystem;
 import com.weathercheck.features.map.models.MapSelection;
 import com.weathercheck.features.weather.models.CurrentWeather;
@@ -17,20 +19,25 @@ public class WeatherController implements Controller {
     private final WeatherView view;
     private final WeatherService weatherService;
     private final GeocodingService geocodingService;
+    private final GeolocationService geolocationService;
     private final I18nManager i18n;
     private final UnitSystem unitSystem;
     private MapSelection mapSelection;
 
-    public WeatherController(WeatherView view, WeatherService weatherService, GeocodingService geocodingService, I18nManager i18n, UnitSystem unitSystem) {
+    public WeatherController(WeatherView view, WeatherService weatherService, GeocodingService geocodingService, GeolocationService geolocationService, I18nManager i18n, UnitSystem unitSystem) {
         this.view = view;
         this.weatherService = weatherService;
         this.geocodingService = geocodingService;
+        this.geolocationService = geolocationService;
         this.i18n = i18n;
         this.unitSystem = unitSystem;
     }
 
     @Override
     public void init() {
+        view.mapPanel().onCurrentPositionRequest(this::centerOnCurrentPositionAsync);
+        centerOnCurrentPositionAsync();
+
         view.mapPanel().onMapClick(pos -> {
             String label = String.format("%.4f, %.4f", pos.getLatitude(), pos.getLongitude());
             mapSelection = new MapSelection(pos.getLatitude(), pos.getLongitude(), label);
@@ -63,6 +70,16 @@ public class WeatherController implements Controller {
                 }
             });
         });
+    }
+
+    private void centerOnCurrentPositionAsync() {
+        CompletableFuture
+                .supplyAsync(geolocationService::locate)
+                .thenAccept(geoCoordinates -> geoCoordinates.ifPresent(this::centerMapOnEdt));
+    }
+
+    private void centerMapOnEdt(GeoCoordinates coordinates) {
+        SwingUtilities.invokeLater(() -> view.mapPanel().centerOnCoordinates(coordinates));
     }
 
     private String weatherText(CurrentWeather weather) {

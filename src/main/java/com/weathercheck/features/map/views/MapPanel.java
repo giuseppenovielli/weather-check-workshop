@@ -3,7 +3,6 @@ package com.weathercheck.features.map.views;
 import com.weathercheck.core.controls.InsetsJPanel;
 import com.weathercheck.core.i18n.I18nManager;
 import com.weathercheck.core.services.geolocation.GeoCoordinates;
-import com.weathercheck.core.services.geolocation.GeolocationService;
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.OSMTileFactoryInfo;
 import org.jxmapviewer.input.PanMouseInputListener;
@@ -16,19 +15,17 @@ import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 public class MapPanel extends InsetsJPanel {
     private static final GeoPosition FALLBACK_POSITION = new GeoPosition(41.8933, 12.4829);
 
     private final JXMapViewer map = new JXMapViewer();
-    private final GeolocationService geolocationService;
     private final I18nManager i18n;
+    private Runnable currentPositionListener = () -> {};
 
-    public MapPanel(GeolocationService geolocationService, I18nManager i18n) {
+    public MapPanel(I18nManager i18n) {
         super(0);
-        this.geolocationService = geolocationService;
         this.i18n = i18n;
 
         OSMTileFactoryInfo info = new SecureOSMTileFactoryInfo();
@@ -41,8 +38,6 @@ public class MapPanel extends InsetsJPanel {
         map.addMouseListener(mia);
         map.addMouseMotionListener(mia);
         map.addMouseWheelListener(new ZoomMouseWheelListenerCursor(map));
-
-        centerOnUserLocationAsync();
     }
 
     @Override
@@ -67,15 +62,13 @@ public class MapPanel extends InsetsJPanel {
         return map;
     }
 
-    private void centerOnUserLocationAsync() {
-        CompletableFuture
-                .supplyAsync(geolocationService::locate)
-                .thenAccept(geoCoordinates -> geoCoordinates.ifPresent(coordinates ->
-                        SwingUtilities.invokeLater(() -> {
-                            map.setAddressLocation(toGeoPosition(coordinates));
-                            map.repaint();
-                        })
-                ));
+    public void onCurrentPositionRequest(Runnable listener) {
+        this.currentPositionListener = listener;
+    }
+
+    public void centerOnCoordinates(GeoCoordinates coordinates) {
+        map.setAddressLocation(toGeoPosition(coordinates));
+        map.repaint();
     }
 
     private GeoPosition toGeoPosition(GeoCoordinates coordinates) {
@@ -91,7 +84,7 @@ public class MapPanel extends InsetsJPanel {
         JButton zoomOutButton = new JButton("-");
         zoomOutButton.addActionListener(e -> changeZoom(1));
         JButton currentPositionButton = new JButton(i18n.tr("map.current_position"));
-        currentPositionButton.addActionListener(e -> centerOnUserLocationAsync());
+        currentPositionButton.addActionListener(e -> currentPositionListener.run());
 
         controls.add(zoomInButton);
         controls.add(zoomOutButton);
