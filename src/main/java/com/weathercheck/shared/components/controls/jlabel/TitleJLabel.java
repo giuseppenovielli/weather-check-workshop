@@ -26,6 +26,9 @@ public class TitleJLabel extends JLabel {
     }
 
     protected final void applyCurrentStyle() {
+        if (variant == null) {
+            return;
+        }
         variant.apply(LABEL_STYLES, this);
     }
 
