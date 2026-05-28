@@ -18,6 +18,11 @@ public class SettingsView extends InsetsJPanel {
     private final JLabel themeLabel = new JLabel();
 
     public SettingsView(I18nManager i18n) {
+        this(i18n, DEFAULT_MARGIN);
+    }
+
+    public SettingsView(I18nManager i18n, int margin) {
+        super(margin);
         this.i18n = i18n;
     }
 
