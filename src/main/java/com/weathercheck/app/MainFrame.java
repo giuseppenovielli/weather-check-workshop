@@ -10,7 +10,6 @@ import com.weathercheck.shared.http.HttpJsonClient;
 import com.weathercheck.shared.i18n.I18nManager;
 import com.weathercheck.shared.components.services.Service;
 import com.weathercheck.features.location.services.geocoding.GeocodingService;
-import com.weathercheck.features.location.services.geocoding.OpenMeteoGeocodingService;
 import com.weathercheck.features.location.services.geocoding.OpenStreetMapGeocodingService;
 import com.weathercheck.features.location.services.geolocation.GeolocationService;
 import com.weathercheck.features.location.services.geolocation.IpGeolocationService;
