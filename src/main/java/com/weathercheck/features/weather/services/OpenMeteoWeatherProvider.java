@@ -3,10 +3,10 @@ package com.weathercheck.features.weather.services;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.weathercheck.core.http.HttpJsonClient;
-import com.weathercheck.core.units.UnitSystem;
 import com.weathercheck.features.weather.mappers.WeatherCodeCatalog;
 import com.weathercheck.features.weather.models.CurrentWeather;
+import com.weathercheck.shared.http.HttpJsonClient;
+import com.weathercheck.shared.units.UnitSystem;
 
 import java.time.ZoneId;
 

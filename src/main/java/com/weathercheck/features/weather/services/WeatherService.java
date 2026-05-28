@@ -1,7 +1,7 @@
 package com.weathercheck.features.weather.services;
 
-import com.weathercheck.core.units.UnitSystem;
 import com.weathercheck.features.weather.models.CurrentWeather;
+import com.weathercheck.shared.units.UnitSystem;
 
 import java.time.ZoneId;
 

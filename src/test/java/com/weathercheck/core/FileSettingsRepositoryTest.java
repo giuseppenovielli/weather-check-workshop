@@ -1,7 +1,8 @@
 package com.weathercheck.core;
 
-import com.weathercheck.core.config.AppSettings;
 import com.weathercheck.features.settings.services.FileSettingsRepository;
+import com.weathercheck.shared.config.AppSettings;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 

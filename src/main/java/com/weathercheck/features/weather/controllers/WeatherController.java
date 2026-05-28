@@ -1,15 +1,15 @@
 package com.weathercheck.features.weather.controllers;
 
-import com.weathercheck.core.controllers.Controller;
-import com.weathercheck.core.i18n.I18nManager;
-import com.weathercheck.core.services.geocoding.GeocodingService;
-import com.weathercheck.core.services.geolocation.GeoCoordinates;
-import com.weathercheck.core.services.geolocation.GeolocationService;
-import com.weathercheck.core.units.UnitSystem;
+import com.weathercheck.shared.geo.geolocation.GeoCoordinates;
 import com.weathercheck.features.map.models.MapSelection;
 import com.weathercheck.features.weather.models.CurrentWeather;
 import com.weathercheck.features.weather.services.WeatherService;
 import com.weathercheck.features.weather.views.WeatherView;
+import com.weathercheck.shared.components.controllers.Controller;
+import com.weathercheck.shared.i18n.I18nManager;
+import com.weathercheck.shared.geo.geocoding.GeocodingService;
+import com.weathercheck.shared.geo.geolocation.GeolocationService;
+import com.weathercheck.shared.units.UnitSystem;
 
 import javax.swing.*;
 import java.time.ZoneId;

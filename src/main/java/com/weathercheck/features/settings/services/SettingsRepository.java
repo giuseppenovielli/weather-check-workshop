@@ -1,6 +1,6 @@
 package com.weathercheck.features.settings.services;
 
-import com.weathercheck.core.config.AppSettings;
+import com.weathercheck.shared.config.AppSettings;
 
 public interface SettingsRepository {
     AppSettings load();

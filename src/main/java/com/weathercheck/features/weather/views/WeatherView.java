@@ -1,9 +1,9 @@
 package com.weathercheck.features.weather.views;
 
-import com.weathercheck.core.i18n.I18nManager;
-import com.weathercheck.core.controls.InsetsJPanel;
-import com.weathercheck.core.theme.LabelStyles;
 import com.weathercheck.features.map.views.MapPanel;
+import com.weathercheck.shared.components.controls.InsetsJPanel;
+import com.weathercheck.shared.i18n.I18nManager;
+import com.weathercheck.shared.theme.LabelStyles;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,11 +1,11 @@
 package com.weathercheck.features.settings.controllers;
 
-import com.weathercheck.core.config.AppSettings;
-import com.weathercheck.core.controllers.ControllerBase;
-import com.weathercheck.core.i18n.I18nManager;
-import com.weathercheck.core.theme.ThemeManager;
 import com.weathercheck.features.settings.services.SettingsRepository;
 import com.weathercheck.features.settings.views.SettingsView;
+import com.weathercheck.shared.config.AppSettings;
+import com.weathercheck.shared.components.controllers.ControllerBase;
+import com.weathercheck.shared.i18n.I18nManager;
+import com.weathercheck.shared.theme.ThemeManager;
 
 import javax.swing.*;
 import java.util.ArrayList;

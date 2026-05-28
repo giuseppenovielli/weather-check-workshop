@@ -1,8 +1,9 @@
 package com.weathercheck.core;
 
-import com.weathercheck.core.units.UnitSystem;
-import com.weathercheck.core.units.UnitSystemResolver;
 import org.junit.jupiter.api.Test;
+
+import com.weathercheck.shared.units.UnitSystem;
+import com.weathercheck.shared.units.UnitSystemResolver;
 
 import java.util.Locale;
 

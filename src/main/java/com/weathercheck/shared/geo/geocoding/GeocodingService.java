@@ -1,0 +1,11 @@
+package com.weathercheck.shared.geo.geocoding;
+
+import java.util.Optional;
+
+import com.weathercheck.shared.components.services.Service;
+import com.weathercheck.shared.geo.geolocation.GeoCoordinates;
+
+public interface GeocodingService extends Service {
+    Optional<GeoCoordinates> getLocation(String query);
+    Optional<String> getPlacemarks(double latitude, double longitude);
+}
