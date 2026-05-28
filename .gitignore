@@ -3,7 +3,7 @@
 
 # Java bytecode / archives
 *.class
-*.jar
+# *.jar
 *.war
 *.ear
 
