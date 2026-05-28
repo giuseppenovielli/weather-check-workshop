@@ -106,25 +106,25 @@ gradle run
 
 ## Esecuzione nel browser con CheerpJ
 
-1. Genera il JAR completo di dipendenze e copialo nella cartella `cheerpj/`:
+1. Posizionati nella cartella root (weather-check) e genera il JAR completo di dipendenze e copialo nella cartella `src/cheerpj/`:
 
 ```bash
 gradle prepareCheerpj
 ```
 
-2. Avvia un web server statico dalla root del progetto:
+2. Posizionati in weather-check/src/cheerpj e avvia un web server statico dalla root del progetto:
 
 ```bash
-python3 -m http.server 8080
+npx serve -l 8080 .
 ```
 
 3. Apri nel browser:
 
 ```text
-http://localhost:8080/cheerpj/
+http://localhost:8080/
 ```
 
-La pagina `cheerpj/index.html` usa CheerpJ e avvia direttamente `cheerpj/app.jar` tramite il `Main-Class` nel manifest.
+La pagina `src/cheerpj/index.html` usa CheerpJ e avvia direttamente `src/cheerpj/app.jar` tramite il `Main-Class` nel manifest.
 
 ## Configurazione utente locale
 

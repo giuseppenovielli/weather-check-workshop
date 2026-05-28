@@ -1,25 +1,29 @@
 package com.weathercheck.shared.http;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
+import java.net.HttpURLConnection;
+import java.nio.charset.StandardCharsets;
 
 public class JdkHttpJsonClient implements HttpJsonClient {
-    private final HttpClient client = HttpClient.newHttpClient();
-
     @Override
     public String get(String url) throws IOException, InterruptedException {
-        HttpRequest request = HttpRequest.newBuilder(URI.create(url))
-                .header("Accept", "application/json")
-                .header("User-Agent", "weather-check/1.0")
-                .GET()
-                .build();
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        if (response.statusCode() >= 400) {
-            throw new IOException("HTTP error: " + response.statusCode());
+        HttpURLConnection connection = (HttpURLConnection) URI.create(url).toURL().openConnection();
+        connection.setRequestMethod("GET");
+        connection.setRequestProperty("Accept", "application/json");
+        connection.setConnectTimeout(10_000);
+        connection.setReadTimeout(10_000);
+
+        int statusCode = connection.getResponseCode();
+        if (statusCode >= 400) {
+            throw new IOException("HTTP error: " + statusCode);
         }
-        return response.body();
+
+        try (InputStream inputStream = connection.getInputStream()) {
+            return new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+        } finally {
+            connection.disconnect();
+        }
     }
 }

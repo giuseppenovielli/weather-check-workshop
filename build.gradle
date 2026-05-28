@@ -12,7 +12,7 @@ repositories {
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(17)
     }
 }
 
@@ -58,6 +58,6 @@ tasks.register('prepareCheerpj', Copy) {
     dependsOn(uberJarTask)
 
     from(uberJarTask.flatMap { it.archiveFile })
-    into(layout.projectDirectory.dir('cheerpj'))
+    into(layout.projectDirectory.dir('src/cheerpj'))
     rename { 'app.jar' }
 }
