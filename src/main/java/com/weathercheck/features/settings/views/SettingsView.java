@@ -2,22 +2,23 @@ package com.weathercheck.features.settings.views;
 
 import javax.swing.*;
 
-import com.weathercheck.shared.components.controls.InsetsJPanel;
-import com.weathercheck.shared.components.controls.jlabel.BodyJLabel;
+import com.weathercheck.shared.components.controls.ExtendedJPanel;
+import com.weathercheck.shared.components.controls.ExtendedJLabel;
 import com.weathercheck.shared.i18n.I18nManager;
 
 import java.awt.*;
 
-public class SettingsView extends InsetsJPanel {
+public class SettingsView extends ExtendedJPanel {
     private final I18nManager i18n;
     private final JComboBox<String> language = new JComboBox<>(new String[]{"it-IT", "en-US", "fr-FR", "de-DE", "es-ES", "ja-JP"});
     private final JComboBox<String> theme = new JComboBox<>(new String[]{"light", "dark"});
     private final JButton save = new JButton();
-    private final JLabel languageLabel = new BodyJLabel(BodyJLabel.Variant.MEDIUM);
-    private final JLabel themeLabel = new BodyJLabel(BodyJLabel.Variant.MEDIUM);
+    private final JLabel languageLabel = new ExtendedJLabel(ExtendedJLabel.Styles.BODY_MEDIUM);
+    private final JLabel themeLabel = new ExtendedJLabel(ExtendedJLabel.Styles.BODY_MEDIUM);
 
     public SettingsView(I18nManager i18n) {
-        this(i18n, DEFAULT_MARGIN);
+        super();
+        this.i18n = i18n;
     }
 
     public SettingsView(I18nManager i18n, int margin) {

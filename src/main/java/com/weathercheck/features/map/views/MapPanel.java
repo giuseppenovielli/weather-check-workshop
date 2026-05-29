@@ -1,7 +1,7 @@
 package com.weathercheck.features.map.views;
 
 import com.weathercheck.features.location.services.geolocation.GeoCoordinates;
-import com.weathercheck.shared.components.controls.InsetsJPanel;
+import com.weathercheck.shared.components.controls.ExtendedJPanel;
 import com.weathercheck.shared.i18n.I18nManager;
 
 import org.jxmapviewer.JXMapViewer;
@@ -18,7 +18,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.function.Consumer;
 
-public class MapPanel extends InsetsJPanel {
+public class MapPanel extends ExtendedJPanel {
     private static final GeoPosition FALLBACK_POSITION = new GeoPosition(41.8933, 12.4829);
 
     private final JXMapViewer map = new JXMapViewer();

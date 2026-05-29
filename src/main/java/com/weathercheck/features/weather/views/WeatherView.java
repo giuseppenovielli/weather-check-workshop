@@ -1,20 +1,19 @@
 package com.weathercheck.features.weather.views;
 
 import com.weathercheck.features.map.views.MapPanel;
-import com.weathercheck.shared.components.controls.InsetsJPanel;
-import com.weathercheck.shared.components.controls.jlabel.BodyJLabel;
-import com.weathercheck.shared.components.controls.jlabel.TitleJLabel;
+import com.weathercheck.shared.components.controls.ExtendedJPanel;
+import com.weathercheck.shared.components.controls.ExtendedJLabel;
 import com.weathercheck.shared.i18n.I18nManager;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class WeatherView extends InsetsJPanel {
+public class WeatherView extends ExtendedJPanel {
     private final MapPanel mapPanel;
-    private final JLabel locationLabel = new TitleJLabel(TitleJLabel.Variant.TITLE, "-");
-    private final JLabel weatherLabel = new BodyJLabel(BodyJLabel.Variant.MEDIUM, "-");
+    private final JLabel locationLabel = new ExtendedJLabel(ExtendedJLabel.Styles.TITLE, "-");
+    private final JLabel weatherLabel = new ExtendedJLabel(ExtendedJLabel.Styles.BODY_MEDIUM, "-");
     private final JButton downloadButton = new JButton();
-    private final JLabel footer = new BodyJLabel(BodyJLabel.Variant.MICRO, "-", SwingConstants.CENTER);
+    private final JLabel footer = new ExtendedJLabel(ExtendedJLabel.Styles.BODY_MICRO, "-", SwingConstants.CENTER);
     private final I18nManager i18n;
 
     public WeatherView(I18nManager i18n) {
